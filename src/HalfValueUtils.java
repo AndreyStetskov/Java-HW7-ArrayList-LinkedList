@@ -1,12 +1,10 @@
 public class HalfValueUtils {
 
     public static double average(double firstValue, double secondValue) {
-        double average = (firstValue + secondValue) / 2;
-        return average;
+        return (firstValue + secondValue) / 2;
     }
 
     public static double average(double firstValue, double secondValue, int thirdValue) {
-        double average = (firstValue + secondValue + thirdValue) / 3;
-        return average;
+        return (firstValue + secondValue + thirdValue) / 3;
     }
 }

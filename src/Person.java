@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Person {
@@ -6,16 +8,17 @@ public abstract class Person {
     private int age;
     private int height;
     private int weight;
+    private List<String> child = new ArrayList<>();
 
-    public Person(String name, int age, int height, int weight) {
+    public Person(String name, int age, int height, int weight, List<String> child) {
         this.name = name;
         this.age = age;
         this.height = height;
         this.weight = weight;
+        this.child = child;
     }
 
-
-    public abstract void die ();
+    public abstract void die (int retirementAge);
 
     public String getName() {
         return name;
@@ -49,17 +52,25 @@ public abstract class Person {
         this.weight = weight;
     }
 
+    public List<String> getChild() {
+        return child;
+    }
+
+    public void setChild(List<String> child) {
+        this.child = child;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return age == person.age && height == person.height && weight == person.weight && Objects.equals(name, person.name);
+        return age == person.age && height == person.height && weight == person.weight && Objects.equals(name, person.name) && Objects.equals(child, person.child);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, age, height, weight);
+        return Objects.hash(name, age, height, weight, child);
     }
 
     @Override
@@ -69,6 +80,7 @@ public abstract class Person {
                 ", age=" + age +
                 ", height=" + height +
                 ", weight=" + weight +
+                ", child=" + child +
                 '}';
     }
 }

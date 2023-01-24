@@ -1,53 +1,42 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 public class Worker extends Person implements AbleToCalculatePension{
 
     private double minSalary;
     private double maxSalary;
+    private final int CHILD_ALLOWANCE = 200;
 
-    public Worker(String name, int age, int height, int weight) {
-        super(name, age,height, weight);
+    public Worker(String name, int age, int height, int weight, List<String> child, double minSalary, double maxSalary) {
+        super(name, age, height, weight, child);
+        this.minSalary = minSalary;
+        this.maxSalary = maxSalary;
     }
 
-
     @Override
-    public void die() {
+    public void die(int retirementAge) {
         System.out.println(getName() + " didn't live up to pension");
     }
 
     @Override
-    public double calculatePension() {
-        Random random = new Random();
+    public double calculatePension(int startUpAge, int retirementAge) {
 
-        String nameOFPensionFond = "This pension fund for " + this.getName();
+        String nameOFPensionFond = "The pension fund has a registered: " + getName();
 
-        int currentYear = 2023;
-        int year = this.getAge();
+        int experience;;
 
-        if (getAge() > 18) {
-            year = currentYear - getAge();
+        if (getAge() > startUpAge && getAge() < retirementAge) {
+            experience = getAge() - startUpAge;
+        } else if (getAge() >= retirementAge){
+            experience = retirementAge - startUpAge;
         } else {
-            year = 0;
+            experience = 0;
         }
 
-        int date;
-        int month = random.nextInt(12) + 1;
-
-        if (month == 4 || month == 6 || month == 9 || month == 11) {
-            date = random.nextInt(30) + 1;
-        } else if (month == 2 && year % 4 == 0 && year != 100 || year % 400 == 0) {
-            date = random.nextInt(29) + 1;
-        } else if (month == 2 && year % 4 != 0) {
-            date = random.nextInt(28) + 1;
-        } else {
-            date = random.nextInt(31) + 1;
-        }
-
-        String createdDate = String.valueOf(date) + "." + String.valueOf(month) + "." + String.valueOf(year);
-
-        SuperannuationFund fund = new SuperannuationFund(nameOFPensionFond, State.generateRandom(), createdDate);
-        return fund.pensionCalculation(year, getMinSalary(), getMaxSalary());
+        SuperannuationFund fund = new SuperannuationFund(nameOFPensionFond, TypeOfFund.generateRandom(), DateGeneration.generateOfDate(getAge()));
+        minSalary += 200 * getChild().size();
+        return fund.pensionCalculation(experience, minSalary, maxSalary);
     }
 
     public double getMinSalary() {
@@ -72,20 +61,20 @@ public class Worker extends Person implements AbleToCalculatePension{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Worker worker = (Worker) o;
-        return Double.compare(worker.minSalary, minSalary) == 0 && Double.compare(worker.maxSalary, maxSalary) == 0;
+        return Double.compare(worker.minSalary, minSalary) == 0 && Double.compare(worker.maxSalary, maxSalary) == 0 && CHILD_ALLOWANCE == worker.CHILD_ALLOWANCE;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), minSalary, maxSalary);
+        return Objects.hash(super.hashCode(), minSalary, maxSalary, CHILD_ALLOWANCE);
     }
 
     @Override
-    public String
-    toString() {
+    public String toString() {
         return "Worker{" +
                 "minSalary=" + minSalary +
                 ", maxSalary=" + maxSalary +
+                ", CHILD_ALLOWANCE=" + CHILD_ALLOWANCE +
                 '}';
     }
 }

@@ -4,13 +4,12 @@ public class SuperannuationFund {
 
     private final double COEFFICIENT = 0.02;
 
-    private int AVERAGE = 1500;
-
+    private final int AVERAGE = 1500;
     private String name;
-    private State national;
+    private TypeOfFund national;
     private String dateCreated;
 
-    public SuperannuationFund(String name, State national, String dateCreated) {
+    public SuperannuationFund(String name, TypeOfFund national, String dateCreated) {
         this.name = name;
         this.national = national;
         this.dateCreated = dateCreated;
@@ -18,17 +17,11 @@ public class SuperannuationFund {
 
 
     public double pensionCalculation (int timeWorked, double minWage, double maxWage) {
-        double pension = 0;
-        switch (national) {
-            case NATIONAL:
-                pension = HalfValueUtils.average(minWage, maxWage);
-                break;
-            case NON_NATIONAL:
-                pension = HalfValueUtils.average(minWage, maxWage, AVERAGE);
-                break;
-            default:
-                pension = 0;
-        }
+        double pension = switch (national) {
+            case NATIONAL -> HalfValueUtils.average(minWage, maxWage);
+            case NON_NATIONAL -> HalfValueUtils.average(minWage, maxWage, AVERAGE);
+            default -> 0;
+        };
         return pension * COEFFICIENT * timeWorked;
     }
 
@@ -40,11 +33,11 @@ public class SuperannuationFund {
         this.name = name;
     }
 
-    public State getNational() {
+    public TypeOfFund getNational() {
         return national;
     }
 
-    public void setNational(State national) {
+    public void setNational(TypeOfFund national) {
         this.national = national;
     }
 

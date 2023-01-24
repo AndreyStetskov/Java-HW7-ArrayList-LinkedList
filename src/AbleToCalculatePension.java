@@ -1,4 +1,4 @@
 public interface AbleToCalculatePension {
 
-    double calculatePension();
+    double calculatePension(int startUpAge, int retirementAge);
 }
