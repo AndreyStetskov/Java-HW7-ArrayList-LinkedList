@@ -16,9 +16,9 @@ public class Pensioner extends Person {
     public void die(int retirementAge) {
         double earned = (getAge() - retirementAge) * pension;
         switch (getChild().size()) {
-            case 0 -> System.out.println(getName() + " died who earned €" + earned + ". And I didn't have children");
-            case 1 -> System.out.println(getName() + " died who earned €" + earned + ". But I have child");
-            default -> System.out.println(getName() + " died who earned €" + earned + ". But I have " + getChild().size() + " children");
+            case 0 -> System.out.println(getName() + " died who earned €" + earned + ". And " + getName() + " doesn't have children");
+            case 1 -> System.out.println(getName() + " died who earned €" + earned + ". But " + getName() + " has child");
+            default -> System.out.println(getName() + " died who earned €" + earned + ". But " + getName() + " has " + getChild().size() + " children");
         }
     }
 
